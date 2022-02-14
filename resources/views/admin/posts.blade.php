@@ -13,17 +13,24 @@
                     <tr>
                         <th>Title</th>
                         <th>Content</th>
+                        <th>Featured Image</th>
                         <th>Date</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @if ($rows)
+                        @foreach ($rows as $row)
+                            <tr>
+                                <td>{{ $row->title }}</td>
+                                <td>{{ $row->content }}</td>
+                                <td><img src="{{ url('uploads/'.$row->image) }}" alt="" style="width:150px;height:150px"></td>
+                                <td>{{ $row->created_at }}</td>
+                                <td>Edit</td>
+                                <td>Delete</td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

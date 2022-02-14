@@ -16,7 +16,7 @@ class AdminController extends Controller
             case 'add':
                 if ($req->method() == "POST") {
                     // $req->input('content');
-                    $req->file('file')->store('stuff');
+                    $req->file('file')->store('/', ['disk' => 'my_disk']);
                 }
                 return view("admin.add_posts", ['page_title' => 'New Post']);
                 break;

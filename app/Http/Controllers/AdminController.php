@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Models\Post;
+
 class AdminController extends Controller
 {
     public function index(Request $req)
@@ -15,8 +17,22 @@ class AdminController extends Controller
         switch ($type) {
             case 'add':
                 if ($req->method() == "POST") {
-                    // $req->input('content');
-                    $req->file('file')->store('/', ['disk' => 'my_disk']);
+                    $post = new Post();
+                    $validated = $req->validate([
+                        'title' => 'required|string',
+                        'file' => 'required|image',
+                        'content' => 'required',
+                    ]);
+                    $path =  $req->file('file')->store('/', ['disk' => 'my_disk']);
+
+                    $data['title'] = $req->input('title');
+                    $data['category_id'] = 1; //fake
+                    $data['image'] = $path;
+                    $data['created_at'] = date("Y-m-d H:i:s");
+                    $data['updated_at'] = date("Y-m-d H:i:s");
+                    $data['content'] = $req->input('content');
+
+                    $post->insert($data);
                 }
                 return view("admin.add_posts", ['page_title' => 'New Post']);
                 break;
@@ -30,7 +46,11 @@ class AdminController extends Controller
                 break;
 
             default:
-                return view("admin.posts", ['page_title' => 'Posts']);
+                $post = new Post();
+                $rows = $post->all();
+                $data['page_title'] = "Posts";
+                $data['rows'] = $rows;
+                return view("admin.posts", $data);
                 break;
         }
     }

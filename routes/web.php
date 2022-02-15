@@ -37,7 +37,7 @@ Route::get('/register', function () {
 });
 
 Route::post("login", [LoginController::class, 'save']);
-Route::post("register", [SignupController::class, 'save']);
+Route::post("register", [SignupController::class, 'save'])->middleware('auth');
 
 Route::get("admin", [AdminController::class, 'index'])->middleware('auth');
 
@@ -56,4 +56,13 @@ Route::post("admin/categories/{type}", [AdminController::class, 'categories'])->
 Route::get("admin/categories/{type}/{id}", [AdminController::class, 'categories'])->middleware('auth');
 Route::post("admin/categories/{type}/{id}", [AdminController::class, 'categories'])->middleware('auth');
 
+
+
 Route::get("admin/users", [AdminController::class, 'users'])->middleware('auth');
+
+Route::get("admin/users/{type}", [AdminController::class, 'users'])->middleware('auth');
+Route::post("admin/users/{type}", [AdminController::class, 'users'])->middleware('auth');
+
+
+Route::get("admin/users/{type}/{id}", [AdminController::class, 'users'])->middleware('auth');
+Route::post("admin/users/{type}/{id}", [AdminController::class, 'users'])->middleware('auth');

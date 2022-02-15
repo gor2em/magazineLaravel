@@ -11,7 +11,6 @@
             </div>
             <div>
                 <form class="container-fluid col-lg-12" method="post" enctype="multipart/form-data">
-
                     @if ($errors->all())
                         <div class="alert alert-danger">
                             @foreach ($errors->all() as $error)
@@ -25,7 +24,8 @@
                     <div class="form-group row">
                         <label for="title" class="col-sm-2 col-form-label">Post Title</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" placeholder="Title" name="title" autofocus>
+                            <input type="text" class="form-control" placeholder="Title" name="title" autofocus
+                                value="{{ $row->title }}">
                         </div>
                     </div>
 
@@ -33,23 +33,25 @@
                         <label for="file" class="col-sm-2 col-form-label">Featured Image</label>
                         <div class="col-sm-10">
                             <input type="file" id="file" class="form-control" name="file">
+                            <img src="{{ url('uploads/' . $row->image) }}" alt="" width="150" height="150">
                         </div>
                     </div>
-
                     <div class="form-group row">
                         <label for="category_id" class="col-sm-2 col-form-label">Post Category</label>
                         <div class="col-sm-10">
                             <select name="category_id" id="category_id" class="form-control">
-                                <option value="">--Select a Category--</option>
+                                <option value="{{ $row->category_id }}">{{ $category->category }}</option>
                             </select>
                         </div>
                     </div>
 
                     @csrf
                     <h4>Post Content</h4>
-                    <textarea id="summernote" name="content"></textarea>
-
-                    <input type="submit" name="" id="" class="btn btn-success" value="Gönder">
+                    <textarea id="summernote" name="content">{{ $row->content }}</textarea>
+                    <a href="{{ url('admin/posts') }}">
+                        <input type="button" name="" id="" class="btn btn-secondary" value="Back">
+                    </a>
+                    <input type="submit" name="" id="" class="btn btn-success" value="Save">
                 </form>
             </div>
         </div>
